@@ -16,9 +16,9 @@ init_db()
 
 
 
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
 
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "frontend"))
+templates = Jinja2Templates(directory=os.path.join("frontend"))
 
 app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
 
