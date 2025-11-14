@@ -14,17 +14,13 @@ app = FastAPI()
 init_db()
 
 
-<<<<<<< Updated upstream
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "frontend"))
 
-=======
-
 app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
->>>>>>> Stashed changes
 
 templates = Jinja2Templates(directory=os.path.join("frontend"))
 @app.get("/", response_class=HTMLResponse)
