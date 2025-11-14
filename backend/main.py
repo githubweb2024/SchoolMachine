@@ -15,14 +15,12 @@ init_db()
 # Routerni ulash
 app.include_router(lessons.router)
 
-# Frontend papka yo'lini tuzatish
-frontend_path = os.path.join(os.path.dirname(__file__), "../frontend")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Static fayllar (CSS, JS)
-app.mount("/static", StaticFiles(directory=frontend_path), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
 
-# Templates (HTML fayllar)
-templates = Jinja2Templates(directory=frontend_path)
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "frontend"))
+
 
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
