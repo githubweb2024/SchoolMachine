@@ -3,13 +3,9 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-<<<<<<< Updated upstream
-from backend.routers.database import init_db
-from backend.routers import lessons
-=======
-from backend.database import init_db
+from database import init_db
 from lessons import *
->>>>>>> Stashed changes
+
 
 import uvicorn
 
