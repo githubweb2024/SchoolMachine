@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Darslar</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f3f6fa;
+}
+
+.navbar {
+    background: #4A8AF4;
+    padding: 15px;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.button {
+    background: #4A8AF4;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.button:hover {
+    background: #3A6EDC;
+}
+
+.lesson-card {
+    background: #eaf0ff;
+    padding: 15px;
+    border-left: 5px solid #4A8AF4;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.btn-back {
+    padding: 5px 10px;
+    background-color: #3c8ec5;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+
+
+/* Popup orqa fon */
+/* Modal orqa fon */
+.modal {
+    display: none; /* boshlanishda yashirin */
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #f9f9f9;
+    padding: 30px 20px;       /* ichki padding */
+    border-radius: 10px;
+    width: 40%;
+    max-width: 500px;
+    box-sizing: border-box;    /* padding + width to‘g‘ri hisoblanadi */
+    display: flex;
+    flex-direction: column;    /* inputlar ustma-ust joylashadi */
+    gap: 10px;                 /* inputlar orasiga bo‘shliq */
+    
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-content input {
+    width: 100%;               /* modal ichida to‘liq kenglik */
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;    /* padding widthga qo‘shiladi */
+    margin: 0;                 /* marginni tashqarida emas, gap bilan */
+}
+
+
+.modal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="navbar">Darslar ro'yxati
+    <!-- yoki button bilan JavaScript -->
+<button onclick="window.history.back()" class="btn-back" style=".btn-back {
+    padding: 5px 10px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+">⬅ Orqaga</button>
+</div>
+
+
+
+<div class="container">
+    <h2>Darslar bo‘limi</h2>
+    <button class="button" onclick="openModal()">Yangi dars qo‘shish</button>
+
+    <div id="lessons" style="margin-top:20px;"></div>
+</div>
+
+<!-- Popup modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Yangi dars qo‘shish</h3>
+        <input type="text" id="newTitle" placeholder="Fan nomi" style="width:100%; padding:8px; margin:5px 0;">
+        <input type="text" id="newDesc" placeholder="Fan o'qituvchisi" style="width:100%; padding:8px; margin:5px 0;">
+        <input type="text" id="newCat" placeholder="Uyga vazifa" style="width:100%; padding:8px; margin:5px 0;">
+        <button class="button" onclick="addLesson()">Qo‘shish</button>
+    </div>
+</div>
+
+<script>
+let lessons = [
+    {id:1, title:"Matematika — Kasrlar", description:"Kasrlarni qo‘shish va ayirish", category:"Matematika"},
+    {id:2, title:"Fizika — Kuch momenti", description:"Moment haqida tushuncha", category:"Fizika"}
+];
+
+// Modal oynani ochish / yopish
+function openModal() { document.getElementById("myModal").style.display = "block"; }
+function closeModal() { document.getElementById("myModal").style.display = "none"; }
+
+// Darslarni ekranga chiqarish
+function renderLessons() {
+    let html = "";
+    lessons.forEach(lesson => {
+        html += `
+            <div class="lesson-card">
+                <h3>${lesson.title}</h3>
+                <p>${lesson.description}</p>
+                <small>Uyga vazifa: ${lesson.category}</small>
+                <button onclick="deleteLesson(${lesson.id})" class="button" style="background:red;">O‘chirish</button>
+            </div>
+        `;
+    });
+    document.getElementById("lessons").innerHTML = html;
+}
+
+// Yangi dars qo‘shish
+function addLesson() {
+    const title = document.getElementById("newTitle").value;
+    const desc = document.getElementById("newDesc").value;
+    const cat = document.getElementById("newCat").value;
+
+    if(title && desc && cat){
+        const newId = lessons.length ? lessons[lessons.length-1].id + 1 : 1;
+        lessons.push({id:newId, title:title, description:desc, category:cat});
+
+        // Formani tozalash va modalni yopish
+        document.getElementById("newTitle").value = "";
+        document.getElementById("newDesc").value = "";
+        document.getElementById("newCat").value = "";
+        closeModal();
+
+        renderLessons();
+    } else {
+        alert("Iltimos, barcha maydonlarni to‘ldiring!");
+    }
+}
+
+// Darsni o‘chirish
+function deleteLesson(id) {
+    if(confirm("Haqiqatan ham o‘chirmoqchimisiz?")){
+        lessons = lessons.filter(lesson => lesson.id !== id);
+        renderLessons();
+    }
+}
+
+// Sahifa yuklanishi bilan darslarni chiqarish
+window.onload = renderLessons;
+
+// Modal oynani yopish ekran tashqarisiga bosilganda
+window.onclick = function(event) {
+    const modal = document.getElementById("myModal");
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
+
+function openModal() {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "flex";      // avvalo ko‘rsatamiz
+    setTimeout(() => {
+        modal.classList.add("show");   // keyin animatsiya boshlanadi
+    }, 10); // kichik kechikish, browser transition boshlashi uchun
+}
+
+function closeModal() {
+    const modal = document.getElementById("myModal");
+    modal.classList.remove("show");    // animatsiya orqaga
+    setTimeout(() => {
+        modal.style.display = "none";  // animatsiya tugagach yashirish
+    }, 300); // transition bilan mos
+}
+
+// Tashqariga bosilganda yopish
+window.onclick = function(event) {
+    const modal = document.getElementById("myModal");
+    if (event.target == modal) closeModal();
+}
+
+async function addLesson() {
+    const title = document.getElementById("newTitle").value;
+    const desc = document.getElementById("newDesc").value;
+    const cat = document.getElementById("newCat").value;
+
+    const res = await fetch("/lessons/", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({title, description: desc, category: cat})
+    });
+    if(res.ok) {
+        closeModal();
+        renderLessons();
+    }
+}
+
+async function deleteLesson(id) {
+    const confirmDelete = confirm("Haqiqatan ham o‘chirmoqchimisiz?");
+    if(!confirmDelete) return;
+
+    const res = await fetch(`/lessons/${id}`, {method:"DELETE"});
+    if(res.ok) renderLessons();
+}
+
+async function renderLessons() {
+    const response = await fetch("/lessons/");
+    const lessons = await response.json();
+    const container = document.getElementById("lessons");
+    container.innerHTML = "";
+    lessons.forEach(lesson => {
+        container.innerHTML += `
+            <div class="lesson-card">
+                <h2>${lesson.title}</h2>
+                <h3>Uyga vazifa: ${lesson.description}</h3>
+                <h4>Fan o'qituvchisi: ${lesson.category}</h4>
+                <button onclick="deleteLesson(${lesson.id})" class="button" style="background:red; margin-bottom: 50px;">O‘chirish</button>
+            </div>`;
+    });
+}
+window.onload = renderLessons;
+
+
+
+</script>
+
+</body>
+</html>

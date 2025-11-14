@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: #f3f6fa;
+}
+
+.navbar {
+    background: #4A8AF4;
+    padding: 15px;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.button {
+    background: #4A8AF4;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.button:hover {
+    background: #3A6EDC;
+}
+
+.lesson-card {
+    background: #eaf0ff;
+    padding: 15px;
+    border-left: 5px solid #4A8AF4;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.btn-back {
+    padding: 5px 10px;
+    background-color: #0d517e;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    display: inline-block;
+}

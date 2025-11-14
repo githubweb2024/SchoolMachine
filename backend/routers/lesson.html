@@ -1,0 +1,43 @@
+<h2 id="lesson-title"></h2>
+<p id="lesson-desc"></p>
+
+<h3>Zametkalar</h3>
+<div id="notes-container"></div>
+
+<textarea id="note-content" placeholder="Yangi zametka yozing"></textarea>
+<button onclick="addNote()">Qo‘shish</button>
+
+<script>
+const lessonId = window.location.pathname.split("/").pop();
+
+async function loadLesson() {
+    const res = await fetch(`/lessons/${lessonId}`);
+    const lesson = await res.json();
+    document.getElementById("lesson-title").innerText = lesson.title;
+    document.getElementById("lesson-desc").innerText = lesson.description;
+
+    const notesContainer = document.getElementById("notes-container");
+    notesContainer.innerHTML = "";
+    lesson.notes.forEach(note => {
+        notesContainer.innerHTML += `<p>- ${note.content}</p>`;
+    });
+}
+
+async function addNote() {
+    const content = document.getElementById("note-content").value;
+    if(!content) return alert("Note bo‘sh bo‘lmasin");
+
+    const res = await fetch(`/lessons/${lessonId}/notes`, {   // <-- shu qatorni o'zgartirdik
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({content})
+    });
+    if(res.ok){
+        document.getElementById("note-content").value = "";
+        loadLesson();
+    }
+}
+
+
+window.onload = loadLesson;
+</script>
