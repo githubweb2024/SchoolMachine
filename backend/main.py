@@ -3,8 +3,13 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+<<<<<<< Updated upstream
 from backend.routers.database import init_db
 from backend.routers import lessons
+=======
+from backend.database import init_db
+from lessons import *
+>>>>>>> Stashed changes
 
 import uvicorn
 
@@ -12,16 +17,20 @@ app = FastAPI()
 
 init_db()
 
-# Routerni ulash
-app.include_router(lessons.router)
 
+<<<<<<< Updated upstream
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
 
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "frontend"))
 
+=======
 
+app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
+>>>>>>> Stashed changes
+
+templates = Jinja2Templates(directory=os.path.join("frontend"))
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
     logged_in = request.cookies.get("logged_in") == "true"

@@ -15,5 +15,5 @@ def get_db():
 
 # Shu yerda barcha table'larni yaratamiz
 def init_db():
-    import routers.models  # models import qilinadi, shunda Base metadata to‘ldiriladi
+    import backend.models  # models import qilinadi, shunda Base metadata to‘ldiriladi
     Base.metadata.create_all(bind=engine)
