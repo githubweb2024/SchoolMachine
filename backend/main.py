@@ -16,13 +16,11 @@ init_db()
 
 
 
-app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
-
-templates = Jinja2Templates(directory=os.path.join("frontend"))
 
 app.mount("/static", StaticFiles(directory=os.path.join("frontend", "static")), name="static")
 
 templates = Jinja2Templates(directory=os.path.join("frontend"))
+
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
     logged_in = request.cookies.get("logged_in") == "true"
