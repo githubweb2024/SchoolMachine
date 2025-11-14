@@ -3,8 +3,8 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from routers.database import init_db
-from routers import lessons
+from .routers.database import init_db
+from .routers import lessons
 
 import uvicorn
 
